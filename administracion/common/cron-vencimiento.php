@@ -3,7 +3,7 @@
 include 'conexion.php';
 //$sql="SELECT * FROM suscripcion WHERE FECHAVENCIMIENTO BETWEEN ADDDATE(NOW(), INTERVAL -8 DAY) AND NOW()";
 //suscripciones vencidas.
-$sql="SELECT IDSUSCRIPCION,IDUSUARIO FROM suscripcion WHERE FECHAVENCIMIENTO<=NOW() AND ESTATUS<>1";
+$sql="SELECT IDSUSCRIPCION,user_id FROM suscripcion WHERE FECHAVENCIMIENTO<=NOW() AND ESTATUS<>1";
 $r=$conn->query($sql);
 if($r->num_rows>0){
   while($row=$r->fetch_assoc()){
@@ -12,14 +12,14 @@ if($r->num_rows>0){
       $sql2="UPDATE suscripcion SET ESTATUS=1 WHERE IDSUSCRIPCION='$id'";
       if($conn->query($sql2)===TRUE){
         #enviar correo de cambio de Plan
-        $sql="SELECT u.CORREO,u.IDUSUARIO FROM suscripcion s INNER JOIN usuario u ON u.IDUSUARIO=s.IDUSUARIO  WHERE s.IDSUSCRIPCION='$id' LIMIT 1";
+        $sql="SELECT u.CORREO,u.id FROM suscripcion s INNER JOIN usuario u ON u.id=s.user_id  WHERE s.IDSUSCRIPCION='$id' LIMIT 1";
         $r=$conn->query($sql);
         if ($r->num_rows>0){
         while($row=$r->fetch_assoc()){
-        $id_user=$row['IDUSUARIO'];
+        $id_user=$row['id'];
         $destinatario=$row['CORREO'];
         //Apagar Robot
-        $sql="UPDATE `usuario` SET `CHATROBOT`=0 where `IDUSUARIO`=$id_user";
+        $sql="UPDATE `usuario` SET `CHATROBOT`=0 where `id`=$id_user";
         if($conn->query($sql) === TRUE){
         echo 'Robot-Off<br>';
         }else{
@@ -43,7 +43,7 @@ if($r->num_rows>0){
       $sql2="UPDATE suscripcion SET ESTATUS=2 WHERE IDSUSCRIPCION='$id'";
       if($conn->query($sql2)===TRUE){
         #enviar correo de cambio de Plan
-        $sql="SELECT u.CORREO, DATE_FORMAT(s.FECHAVENCIMIENTO, '%d/%m/%Y') AS FECHAVENCIMIENTO FROM suscripcion s INNER JOIN usuario u ON u.IDUSUARIO=s.IDUSUARIO  WHERE s.IDSUSCRIPCION='$id' LIMIT 1";
+        $sql="SELECT u.CORREO, DATE_FORMAT(s.FECHAVENCIMIENTO, '%d/%m/%Y') AS FECHAVENCIMIENTO FROM suscripcion s INNER JOIN usuario u ON u.id=s.user_id  WHERE s.IDSUSCRIPCION='$id' LIMIT 1";
         $r=$conn->query($sql);
         if ($r->num_rows>0){
         while($row=$r->fetch_assoc()){
@@ -64,7 +64,7 @@ if($r->num_rows>0){
   while($row=$r->fetch_assoc()){
       $id=$row['IDSUSCRIPCION'];
         #enviar correo de cambio de Plan
-        $sql="SELECT u.CORREO, DATE_FORMAT(s.FECHAVENCIMIENTO, '%d/%m/%Y') AS FECHAVENCIMIENTO FROM suscripcion s INNER JOIN usuario u ON u.IDUSUARIO=s.IDUSUARIO  WHERE s.IDSUSCRIPCION='$id' LIMIT 1";
+        $sql="SELECT u.CORREO, DATE_FORMAT(s.FECHAVENCIMIENTO, '%d/%m/%Y') AS FECHAVENCIMIENTO FROM suscripcion s INNER JOIN usuario u ON u.id=s.user_id  WHERE s.IDSUSCRIPCION='$id' LIMIT 1";
         $r=$conn->query($sql);
         if ($r->num_rows>0){
         while($row=$r->fetch_assoc()){

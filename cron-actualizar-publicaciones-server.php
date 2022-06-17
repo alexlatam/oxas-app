@@ -13,7 +13,7 @@ if($r->num_rows>0){
 }
 //funcion de refrescar Token
 function refreshToken($id_user,$appId,$secretKey,$ch,$conn){
-  $sql="SELECT REFRESTOKEN FROM usuario WHERE IDUSUARIO=$id_user";
+  $sql="SELECT REFRESTOKEN FROM usuario WHERE id=$id_user";
   $q=$conn->query($sql);
   if($q->num_rows>0){while($row=$q->fetch_assoc()){$refresh_token=$row['REFRESTOKEN'];}}
   $ch=curl_init();
@@ -30,7 +30,7 @@ function refreshToken($id_user,$appId,$secretKey,$ch,$conn){
 //recorro todos los usuarios q estan haciendo reventas
 foreach($array_id_user as $id_user){
   //busco el accessToken del usuario
-  $sql="SELECT ACCESSTOKEN FROM usuario where IDUSUARIO=$id_user";
+  $sql="SELECT ACCESSTOKEN FROM usuario where id=$id_user";
   $res=$conn->query($sql);
   if($res->num_rows>0){
     while($row=$res->fetch_assoc()){
@@ -42,7 +42,7 @@ foreach($array_id_user as $id_user){
   $array_publicaciones_originales=array();
   $array_ganancias=array();
   //busco todas las publicaciones ACTIVAS del usuario
-  $sql="SELECT CODIGO,CODIGOORIGINAL,GANANCIA FROM publicacion where IDUSUARIO=$id_user AND ESTATUS=1";
+  $sql="SELECT CODIGO,CODIGOORIGINAL,GANANCIA FROM publicacion where user_id=$id_user AND ESTATUS=1";
   $res=$conn->query($sql);
   if($res->num_rows>0){
     while($row=$res->fetch_assoc()){

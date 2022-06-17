@@ -3,7 +3,7 @@ require 'conexion.php';
 require 'Funciones.php';
 //Funcion que actualiza el AccessToken
 function refreshToken($id_user,$appId,$secretKey,$ch,$conn){
-  $sql="SELECT REFRESTOKEN FROM usuario WHERE IDUSUARIO=$id_user";
+  $sql="SELECT REFRESTOKEN FROM usuario WHERE id=$id_user";
   $result_f=$conn->query($sql);
   if($result_f->num_rows>0){while($row=$result_f->fetch_assoc()){$refresh_token=$row['REFRESTOKEN'];}}
   $ch=curl_init();
@@ -27,7 +27,7 @@ if(isset($_GET['o'],$_GET['r'])){
       $id_user=$row['USUARIOID'];
     }
   }
-  $sql="SELECT ACCESSTOKEN,PAIS FROM usuario WHERE IDUSUARIO=$id_user";
+  $sql="SELECT ACCESSTOKEN,PAIS FROM usuario WHERE id=$id_user";
   $r=$conn->query($sql);
   if($r->num_rows>0){
     while($row=$r->fetch_assoc()){

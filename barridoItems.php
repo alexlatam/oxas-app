@@ -23,7 +23,7 @@ for ($i = 0; $i <= $aux; $i++) {
     $items = $consulta->results;
     //Este ciclo sera de solo items activos
     foreach ($items as $item) {
-        $sql = "SELECT * FROM publicacion where IDUSUARIO=$id_user AND CODIGO='$item' LIMIT 1;";
+        $sql = "SELECT * FROM publicacion where user_id=$id_user AND CODIGO='$item' LIMIT 1;";
         $res = $conn->query($sql);
         if ($res->num_rows > 0) {
             while ($row = $res->fetch_assoc()) {
@@ -59,7 +59,7 @@ for ($i = 0; $i <= $aux; $i++) {
     $items = $consulta->results;
     //Este ciclo sera de solo items activos
     foreach ($items as $item) {
-        $sql = "SELECT * FROM publicacion where IDUSUARIO=$id_user AND CODIGO='$item' LIMIT 1;";
+        $sql = "SELECT * FROM publicacion where user_id=$id_user AND CODIGO='$item' LIMIT 1;";
         $res = $conn->query($sql);
         if ($res->num_rows > 0) {
             while ($row = $res->fetch_assoc()) {

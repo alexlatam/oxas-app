@@ -7,7 +7,7 @@ $robot=$_GET['robot'];
 $id_user=$_GET['id'];
 
 //consultar suscripción
-$sql="SELECT * FROM suscripcion WHERE IDUSUARIO='$id_user' LIMIT 1";
+$sql="SELECT * FROM suscripcion WHERE user_id='$id_user' LIMIT 1";
 $r=$conn->query($sql);
 if($r->num_rows>0){
   $row=$r->fetch_assoc();
@@ -15,7 +15,7 @@ if($r->num_rows>0){
     //puede cambiar el robot
     if (!$robot){
     //Desactiva robot
-    $sql="UPDATE `usuario` SET `CHATROBOT`=0 where  `IDUSUARIO`=$id_user";
+    $sql="UPDATE `usuario` SET `CHATROBOT`=0 where  `id`=$id_user";
     if($conn->query($sql) === TRUE){
     echo '1';
     }else{
@@ -23,7 +23,7 @@ if($r->num_rows>0){
     }
     }else{
     //Activa robot
-    $sql="UPDATE `usuario` SET `CHATROBOT`=1 where  `IDUSUARIO`=$id_user";
+    $sql="UPDATE `usuario` SET `CHATROBOT`=1 where  `id`=$id_user";
     if($conn->query($sql) === TRUE){
     echo '1';
     }else{

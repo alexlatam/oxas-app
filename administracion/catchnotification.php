@@ -9,7 +9,7 @@ $notifications=file_get_contents("php://input");
   $idUsuarioNotif=$notifications['user_id'];
   $api_raiz="https://api.mercadolibre.com";
   //busco el AccessToken y la bandera que indica si el chat esta o no activo(ChatRobot)
-  $sql="SELECT ACCESSTOKEN,CHATROBOT,PAIS FROM usuario where IDUSUARIO=$idUsuarioNotif";
+  $sql="SELECT ACCESSTOKEN,CHATROBOT,PAIS FROM usuario where id=$idUsuarioNotif";
   $res=$conn->query($sql);
   if($res->num_rows>0){while($row=$res->fetch_assoc()){$robot=$row['CHATROBOT'];$access_token=$row['ACCESSTOKEN'];$siteId=$row['PAIS'];}}
   if($siteId="MLV"){
@@ -25,7 +25,7 @@ $notifications=file_get_contents("php://input");
   }
   //Funcion que actualiza el AccessToken
   function refreshToken($idUsuarioNotif,$appId,$secretKey,$ch,$conn,$api_raiz){
-    $sql="SELECT REFRESTOKEN FROM usuario WHERE IDUSUARIO=$idUsuarioNotif;";
+    $sql="SELECT REFRESTOKEN FROM usuario WHERE id=$idUsuarioNotif;";
     $result_f=$conn->query($sql);
     if($result_f->num_rows>0){while($row=$result_f->fetch_assoc()){$refresh_token=$row['REFRESTOKEN'];}}
     $ch=curl_init();
@@ -71,7 +71,7 @@ $notifications=file_get_contents("php://input");
     //Pregunto a ver si existe respuesta
     if($msn!=NULL){
       //Busco Saludo y Firma
-      $sql="SELECT SALUDO,DESPEDIDA FROM usuario WHERE IDUSUARIO=$idUsuarioNotif";
+      $sql="SELECT SALUDO,DESPEDIDA FROM usuario WHERE id=$idUsuarioNotif";
       $result=$conn->query($sql);
       if($result->num_rows>0){while($row=$result->fetch_assoc()){$saludo=$row['SALUDO'];$firma=$row['DESPEDIDA'];}}
       //Confirmo que el comprador no me ha escrito antes, en caso de si, no le saludo, ni me despido. Solo le respondo puntualmente
@@ -126,7 +126,7 @@ $notifications=file_get_contents("php://input");
       $respuesta=filtroRespuesta($respuesta);
       $pregunta=$consulta->text;
       //Busco el codigo de la publicacion nuestra
-      $sql="SELECT CODIGO FROM publicacion WHERE IDUSUARIO=$idUsuarioNotif AND CODIGOORIGINAL='$idpublic'";
+      $sql="SELECT CODIGO FROM publicacion WHERE user_id=$idUsuarioNotif AND CODIGOORIGINAL='$idpublic'";
       $result=$conn->query($sql);
       if($result->num_rows>0){while($row=$result->fetch_assoc()){$codigoPublic_BBDD=$row['CODIGO'];}}
       //busco las preguntas sin responder de nuestra publicacion

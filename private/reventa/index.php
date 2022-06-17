@@ -58,7 +58,7 @@ if(isset($_SESSION['admin'])){
             <tbody>
               <?php
               $c=0;
-              $sql="SELECT r.IDREVENDEDOR,u.CORREO,u.NAME,u.LASTNAME,u.PAIS FROM revendedores r INNER JOIN usuario u WHERE r.USUARIOID=u.IDUSUARIO";
+              $sql="SELECT r.IDREVENDEDOR,u.CORREO,u.NAME,u.LASTNAME,u.PAIS FROM revendedores r INNER JOIN usuario u WHERE r.USUARIOID=u.id";
               $result=$conn->query($sql);
               if($result->num_rows>0){
                 while($row=$result->fetch_assoc()){

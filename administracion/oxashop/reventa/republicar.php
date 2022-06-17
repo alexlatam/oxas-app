@@ -136,7 +136,7 @@ curl_setopt($ch,CURLOPT_POSTFIELDS,"{\"title\":\"$title\",
   if(isset($consulta->id)){
     $id=$consulta->id;
     //Cargar el id original en BD
-    $sql="INSERT INTO publicacion (IDUSUARIO,CODIGO,NOMBRE,CODIGOORIGINAL,GANANCIA,ESTATUS) VALUES ($id_user,'$id','$title','$id_item',$ganancia,1)";
+    $sql="INSERT INTO publicacion (user_id,CODIGO,NOMBRE,CODIGOORIGINAL,GANANCIA,ESTATUS) VALUES ($id_user,'$id','$title','$id_item',$ganancia,1)";
     if($conn->query($sql)===TRUE){
       $respuesta=1;
       //agrego al vendedor al modelo oxashop

@@ -1,7 +1,7 @@
 <?php
 if(isset($_COOKIE['id_user'],$_COOKIE['_validate'],$_COOKIE['expires_in'])){
   $id_user=$_COOKIE['id_user'];
-  $sql="SELECT ACCESSTOKEN,CORREO,PAIS FROM usuario where IDUSUARIO='$id_user';";
+  $sql="SELECT ACCESSTOKEN,CORREO,PAIS FROM usuario where id='$id_user';";
   $res=$conn->query($sql);
   if($res->num_rows>0){
     while($row=$res->fetch_assoc()){

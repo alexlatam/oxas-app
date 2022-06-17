@@ -53,7 +53,7 @@ curl_setopt($ch,CURLOPT_URL,"https://api.mercadolibre.com/sites/MLV/search?nickn
 curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);$result=curl_exec($ch);curl_reset($ch);
 $string=substr($result,4,strlen($result)-6);$var=json_decode($string);$r=$var[2];
 $publicaciones=$r->paging->total;
-$sql="INSERT INTO sellers (CATEGORIA,IDUSER,NICKNAME,FECHAINICIOML,TRANSACCIONES,CONCRETADAS,REPUTACION,MLIDER,PUBLICACIONES,ESTADO,CIUDAD,PERFILML) VALUES ('$nombre_categ_princ','$id_seller','$nickname','$fecharegistro','$ventas_totales','$ventas_concretadas','$reputacion','$mercadoLider','$publicaciones','$estado','$ciudad','$perfilML');";
+$sql="INSERT INTO sellers (CATEGORIA,user_id,NICKNAME,FECHAINICIOML,TRANSACCIONES,CONCRETADAS,REPUTACION,MLIDER,PUBLICACIONES,ESTADO,CIUDAD,PERFILML) VALUES ('$nombre_categ_princ','$id_seller','$nickname','$fecharegistro','$ventas_totales','$ventas_concretadas','$reputacion','$mercadoLider','$publicaciones','$estado','$ciudad','$perfilML');";
 if($conn->query($sql)===TRUE){}else{echo "$id_seller no se registro <br>";}
 }
 }

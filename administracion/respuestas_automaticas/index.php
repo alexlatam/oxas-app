@@ -2,7 +2,7 @@
 session_start();
 require '../common/meli.php';require '../common/conexion.php';
 require '../Oxa/Funciones.php';require '../common/take_at.php'; require '../common/account-off.php';
-$sql="SELECT CHATROBOT from usuario where IDUSUARIO='$id_user' LIMIT 1";
+$sql="SELECT CHATROBOT from usuario where id='$id_user' LIMIT 1";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   $row=$result->fetch_assoc();
@@ -51,7 +51,7 @@ if ($result->num_rows > 0) {
               <div class='mt-2'>
                 <h5 class='text-success mb-4'>Respuestas Automáticas Creadas</h5>
                 <?php
-                $sql="SELECT `IDSINAPSIS`,`INFO`,`NUMPUBLICACIONES`,`ESTIMULOS` FROM `sinapsis` WHERE `IDUSUARIO`='$id_user'";
+                $sql="SELECT `IDSINAPSIS`,`INFO`,`NUMPUBLICACIONES`,`ESTIMULOS` FROM `sinapsis` WHERE `user_id`='$id_user'";
                 $result=$conn->query($sql);
                 if($result->num_rows > 0){
                   while($row=$result->fetch_assoc()){

@@ -254,7 +254,7 @@ if(isset($nickname)){
         <tbody>
           <?php
           $array_publicaciones_originales=array();
-          $sql="SELECT CODIGOORIGINAL,GANANCIA FROM publicacion WHERE IDUSUARIO=$id_user";
+          $sql="SELECT CODIGOORIGINAL,GANANCIA FROM publicacion WHERE user_id=$id_user";
           $result=$conn->query($sql);
           if($result->num_rows>0){
             while($row=$result->fetch_assoc()){

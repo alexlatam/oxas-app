@@ -62,12 +62,12 @@ if(isset($_SESSION['admin'])){
             <tbody>
               <?php
               $c=0;
-              $sql="SELECT u.IDUSUARIO,u.CORREO,u.NAME,u.LASTNAME,u.TELPPAL,u.TELSECOND,u.ACCESSTOKEN,u.REFRESTOKEN,u.ULTIMAFECHA,s.FECHAREGISTRO,s.ESTATUS,s.FECHAVENCIMIENTO FROM usuario u
-              INNER JOIN suscripcion s ON s.IDUSUARIO=u.IDUSUARIO ORDER BY s.FECHAREGISTRO DESC;";
+              $sql="SELECT u.id,u.CORREO,u.NAME,u.LASTNAME,u.TELPPAL,u.TELSECOND,u.ACCESSTOKEN,u.REFRESTOKEN,u.ULTIMAFECHA,s.FECHAREGISTRO,s.ESTATUS,s.FECHAVENCIMIENTO FROM usuario u
+              INNER JOIN suscripcion s ON s.user_id=u.id ORDER BY s.FECHAREGISTRO DESC;";
               $result=$conn->query($sql);
               if($result->num_rows>0){
                 while($row=$result->fetch_assoc()){
-                  $id_user=$row['IDUSUARIO'];
+                  $id_user=$row['id'];
                   $correo=$row['CORREO'];
                   $name=ucfirst(strtolower($row['NAME']));
                   $lastname=ucfirst(strtolower($row['LASTNAME']));

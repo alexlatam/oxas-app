@@ -16,7 +16,7 @@ if (isset($_GET['preg'], $_GET['public'])) {
     $ids = razonador($ps, $id_user, $idpublic);
     $msn = codificador($ids);
     if ($msn != NULL) {
-        $sql = "SELECT SALUDO, DESPEDIDA FROM `usuario` WHERE IDUSUARIO=$id_user";
+        $sql = "SELECT SALUDO, DESPEDIDA FROM `usuario` WHERE id=$id_user";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -30,7 +30,7 @@ if (isset($_GET['preg'], $_GET['public'])) {
     $msn = '';
 }
 $publicaciones_array = array();
-$sql = "SELECT * FROM `publicacion` WHERE `IDUSUARIO`=$id_user AND `ESTATUS`=1;";
+$sql = "SELECT * FROM `publicacion` WHERE `user_id`=$id_user AND `ESTATUS`=1;";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
