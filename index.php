@@ -1,9 +1,9 @@
 <?php
-// require 'administracion/common/conexion.php';
-// require "administracion/precios/index.php";
-// if (isset($_GET['r'])) {
-//   $respuesta_form = $_GET['r'];
-// }
+require 'administracion/common/conexion.php';
+require "administracion/precios/index.php";
+if (isset($_GET['r'])) {
+  $respuesta_form = $_GET['r'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -301,7 +301,7 @@
       easing: 'easeInOutSine'
     });
   </script>
-  <!-- <div class="container py-5" id="portfolio">
+  <div class="container py-5" id="portfolio">
     <div class="row justify-content-center my-5">
       <h2 class="text-center col-12 mt-4 mb-3">¡El Mejor Precio!</h2>
       <hr>
@@ -347,7 +347,7 @@
         </a>
       </div>
     </div>
-  </div> -->
+  </div>
   <section id="contact" class="bg-light">
     <div class="container">
       <div class="row">
