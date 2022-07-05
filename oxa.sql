@@ -207,8 +207,8 @@ CREATE TABLE `sellers`(
 );
 
 -- INSERTAR VALORES
-INSERT INTO `settings` (`field`, `values`) 
+INSERT INTO `settings` (`field`, `value`) 
        VALUES ('https_url_app', 'https://asvzla.ml'),
-       VALUES ('app_id_vzla',      '6021623127840893'),
-       VALUES ('secret_key_vzla',  'esZADLxWSqBWYf7gf0Fcr9JSCzYpR3OR'),
-       VALUES ('redirect_url',     'https://asvzla.ml/administracion/common/redirect.php');
+              ('app_id_vzla',      '6021623127840893'),
+              ('secret_key_vzla',  'esZADLxWSqBWYf7gf0Fcr9JSCzYpR3OR'),
+              ('redirect_url',     'https://asvzla.ml/administracion/common/redirect.php');
