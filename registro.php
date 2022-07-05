@@ -2,6 +2,7 @@
 session_start();
 session_destroy();
 require 'administracion/common/meli.php';
+require 'administracion/common/conexion.php';
 
 if ( !isset($_GET['site']) ) {
   header("location: index.php");
