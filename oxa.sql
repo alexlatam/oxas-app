@@ -153,6 +153,12 @@ CREATE TABLE `municipios` (
 
    PRIMARY KEY (IDMUNICIPIO)
 );
+
+CREATE TABLE `settings` (
+	`field` VARCHAR(255) NULL DEFAULT NULL,
+	`value` VARCHAR(255) NULL DEFAULT NULL
+);
+
 /*
 Fin de Nuevas Tablas
 */
@@ -199,3 +205,10 @@ CREATE TABLE `sellers`(
 
   PRIMARY KEY (id)
 );
+
+-- INSERTAR VALORES
+INSERT INTO `settings` (`field`, `values`) 
+       VALUES ('https_url_app', 'https://asvzla.ml'),
+       VALUES ('app_id_vzla',      '6021623127840893'),
+       VALUES ('secret_key_vzla',  'esZADLxWSqBWYf7gf0Fcr9JSCzYpR3OR'),
+       VALUES ('redirect_url',     'https://asvzla.ml/administracion/common/redirect.php');

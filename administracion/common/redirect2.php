@@ -3,7 +3,7 @@ session_start();
 require 'meli.php';
 include 'conexion.php';
 include '../Oxa/Funciones.php';
-$redirectURI = $GLOBALS['https_url_app']."/administracion/common/redirect2.php";
+$redirectURI = $_SESSION['https_url_app']."/administracion/common/redirect2.php";
 $appId       = '884214179114152';
 $secretKey   = 'NpVPyfC6vtrFdS5EZ9Sr2DQe5sAOrXAK';
 date_default_timezone_set('America/Santiago');

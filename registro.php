@@ -10,21 +10,19 @@ if ( !isset($_GET['site']) ) {
 
 $siteId      = $_GET['site'];
 
-$appId       = $GLOBALS['app_id_vzla'];
-$secretKey   = $GLOBALS['secret_key_vzla'];
-$redirectURI = $GLOBALS['redirect_url_vzla'];
-  
-if ($siteId == 'MLC') {
-  
-  $appId       = $GLOBALS['app_id_chile'];
-  $secretKey   = $GLOBALS['secret_key_chile'];
-  $redirectURI = $GLOBALS['redirect_url_chile'];
-  
+$sql="SELECT * FROM settings";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+    
+    if    ($row['field'] == 'https_url_app'){$_SESSION["https_url_app"] = $row['https_url_app'];}
+    elseif($row['field'] == 'secret_key'){   $_SESSION["secret_key"]    = $row['secret_key'];}
+    elseif($row['field'] == 'redirect_url'){ $_SESSION["redirect_url"]  = $row['redirect_url'];}
+    elseif($row['field'] == 'app_id'){       $_SESSION["app_id"]        = $row['app_id'];}
+    
+  }
 }
 
-$GLOBALS['app_id']       = $appId;
-$GLOBALS['secret_key']   = $secretKey;
-$GLOBALS['redirect_url'] = $redirectURI;
-
-$meli = new Meli($GLOBALS['app_id'], $GLOBALS['secret_key']);
-header("location: " . $meli->getAuthUrl($GLOBALS['redirect_url'], Meli::$AUTH_URL[$siteId]));
+$meli = new Meli($_SESSION['app_id'], $_SESSION['secret_key']);
+header("location: " . $meli->getAuthUrl($_SESSION['redirect_url'], Meli::$AUTH_URL[$siteId]));

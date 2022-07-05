@@ -1,6 +1,4 @@
 <?php
-// include 'settings.php';
-var_dump($GLOBALS['https_url_app']);
 if(isset($_COOKIE['id_user'],$_COOKIE['_validate'],$_COOKIE['expires_in'])){
   $id_user=$_COOKIE['id_user'];
   $sql="SELECT ACCESSTOKEN,CORREO,PAIS FROM usuario where id='$id_user';";
@@ -16,14 +14,14 @@ if(isset($_COOKIE['id_user'],$_COOKIE['_validate'],$_COOKIE['expires_in'])){
     date_default_timezone_set('America/Caracas');
     $appId='1153047962046613';
     $secretKey='i3RGdgCvJXrKT1ceMNOHs4YLNHdgZ9Mj';
-    $redirectURI=$GLOBALS['https_url_app']."/administracion/common/redirect.php";
+    $redirectURI=$_SESSION['https_url_app']."/administracion/common/redirect.php";
   }else if($siteId=="MLC"){
     date_default_timezone_set('America/Santiago');
     $appId='884214179114152';
     $secretKey='NpVPyfC6vtrFdS5EZ9Sr2DQe5sAOrXAK';
-    $redirectURI=$GLOBALS['https_url_app']."/administracion/common/redirect2.php";
+    $redirectURI=$_SESSION['https_url_app']."/administracion/common/redirect2.php";
   }
 }else{
-  header('Location: '.$GLOBALS['https_url_app']);
+  header('Location: '.$_SESSION['https_url_app']);
 }
 ?>

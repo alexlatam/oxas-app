@@ -2,18 +2,17 @@
 session_start();
 require 'meli.php';
 include 'conexion.php';
-include 'settings.php';
 include '../Oxa/Funciones.php';
 
 date_default_timezone_set('America/Caracas');
-$meli = new Meli($GLOBALS['app_id'], $GLOBALS['secret_key']);
+$meli = new Meli($_SESSION['app_id'], $_SESSION['secret_key']);
 
 // si existe un codigo(code), quiere decir que se esta registrando por 1 vez, 
 // si existe un validate quiere decir q ya se habia registrado antes
 if (@$_GET['code'] || @$_COOKIE['_validate']) { 
 
     if ($_GET['code']) { // If code exist and session is empty
-        $user = $meli->authorize($_GET['code'], $GLOBALS['redirect_url']);
+        $user = $meli->authorize($_GET['code'], $_SESSION['redirect_url']);
         $AT   = $user['body']->access_token;
         $RT   = $user['body']->refresh_token;
         #Creacion de Cookies

@@ -21,8 +21,8 @@ if ($res->num_rows > 0) {
   }
 }
 
-$appId     = $GLOBALS['app_id'];
-$secretKey = $GLOBALS['secret_key'];
+$appId     = $_SESSION['app_id'];
+$secretKey = $_SESSION['secret_key'];
 
 //Funcion que actualiza el AccessToken
 function refreshToken($idUsuarioNotif, $appId, $secretKey, $ch, $conn, $api_raiz)
@@ -235,9 +235,9 @@ function enviarPrimerMensaje($idUsuarioNotif, $consulta, $access_token, $ch, $co
             $idReSeller = $rw['IDREVENDEDOR'];
           }
         }
-        $wordsToChange = array($GLOBALS['https_url_app']."/formulario/index.php?o=$order_id&r=$idReSeller");
+        $wordsToChange = array($_SESSION['https_url_app']."/formulario/index.php?o=$order_id&r=$idReSeller");
       } else {
-        $wordsToChange = array($GLOBALS['https_url_app']."/formulario/index.php?o=$order_id");
+        $wordsToChange = array($_SESSION['https_url_app']."/formulario/index.php?o=$order_id");
       }
       $mensaje = str_replace($filterWords, $wordsToChange, $mensaje);
       $horas = $row['HORA'];
