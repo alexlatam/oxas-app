@@ -1,5 +1,5 @@
 <?php
-include 'settings.php';
+// include 'settings.php';
 var_dump($GLOBALS['https_url_app']);
 if(isset($_COOKIE['id_user'],$_COOKIE['_validate'],$_COOKIE['expires_in'])){
   $id_user=$_COOKIE['id_user'];
