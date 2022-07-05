@@ -111,7 +111,7 @@ foreach($pictures as $imagen){
       //cierro el directorio
       fclose($miarchivo);
       //escribo la ruta de la imagen que subi en el servidor de oxas, esta imagen depues sera enlazada cin la nueva publicacion
-      $imagen_server_oxas="https://app.oxas.tech/administracion/oxashop/reventa/img/$new_name_image";
+      $imagen_server_oxas = $GLOBALS['https_url_app']."/administracion/oxashop/reventa/img/$new_name_image";
       //string de la imagen
       array_push($array_definitivo_imagenes,"{\"source\":\"$imagen_server_oxas\"}");
     }

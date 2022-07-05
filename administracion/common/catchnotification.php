@@ -2,6 +2,8 @@
 header('HTTP/1.1 200 OK');
 include 'conexion.php';
 require 'Funciones.php';
+require 'settings.php';
+
 $notifications = file_get_contents("php://input");
 $notifications = json_decode($notifications, true);
 $resource = $notifications['resource'];
@@ -18,17 +20,10 @@ if ($res->num_rows > 0) {
     $siteId = $row['PAIS'];
   }
 }
-if ($siteId = "MLV") {
-  date_default_timezone_set('America/Caracas');
-  $appId = '1153047962046613';
-  $secretKey = 'i3RGdgCvJXrKT1ceMNOHs4YLNHdgZ9Mj';
-  $redirectURI = "https://app.oxas.tech/administracion/common/redirect.php";
-} elseif ($siteId == "MLC") {
-  date_default_timezone_set('America/Santiago');
-  $appId = '884214179114152';
-  $secretKey = 'NpVPyfC6vtrFdS5EZ9Sr2DQe5sAOrXAK';
-  $redirectURI = "https://app.oxas.tech/administracion/common/redirect2.php";
-}
+
+$appId     = $GLOBALS['app_id'];
+$secretKey = $GLOBALS['secret_key'];
+
 //Funcion que actualiza el AccessToken
 function refreshToken($idUsuarioNotif, $appId, $secretKey, $ch, $conn, $api_raiz)
 {
@@ -240,9 +235,9 @@ function enviarPrimerMensaje($idUsuarioNotif, $consulta, $access_token, $ch, $co
             $idReSeller = $rw['IDREVENDEDOR'];
           }
         }
-        $wordsToChange = array("https://app.oxas.tech/formulario/index.php?o=$order_id&r=$idReSeller");
+        $wordsToChange = array($GLOBALS['https_url_app']."/formulario/index.php?o=$order_id&r=$idReSeller");
       } else {
-        $wordsToChange = array("https://app.oxas.tech/formulario/index.php?o=$order_id");
+        $wordsToChange = array($GLOBALS['https_url_app']."/formulario/index.php?o=$order_id");
       }
       $mensaje = str_replace($filterWords, $wordsToChange, $mensaje);
       $horas = $row['HORA'];

@@ -2,21 +2,20 @@
 session_start();
 require 'meli.php';
 include 'conexion.php';
+include 'settings.php';
 include '../Oxa/Funciones.php';
-$redirectURI = "https://app.oxas.tech/administracion/common/redirect.php";
-$appId       = '1153047962046613';
-$secretKey   = 'i3RGdgCvJXrKT1ceMNOHs4YLNHdgZ9Mj';
+
 date_default_timezone_set('America/Caracas');
-$meli = new Meli($appId, $secretKey);
+$meli = new Meli($GLOBALS['app_id'], $GLOBALS['secret_key']);
 
 // si existe un codigo(code), quiere decir que se esta registrando por 1 vez, 
 // si existe un validate quiere decir q ya se habia registrado antes
 if (@$_GET['code'] || @$_COOKIE['_validate']) { 
 
     if ($_GET['code']) { // If code exist and session is empty
-        $user = $meli->authorize($_GET['code'], $redirectURI);
-        $AT = $user['body']->access_token;
-        $RT = $user['body']->refresh_token;
+        $user = $meli->authorize($_GET['code'], $GLOBALS['redirect_url']);
+        $AT   = $user['body']->access_token;
+        $RT   = $user['body']->refresh_token;
         #Creacion de Cookies
         $duracion = time() + 5 * 60 * 60; #Duracion de la COOKIE 6Hr
         $ruta = "/";

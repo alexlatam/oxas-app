@@ -14,14 +14,14 @@ if(isset($_COOKIE['id_user'],$_COOKIE['_validate'],$_COOKIE['expires_in'])){
     date_default_timezone_set('America/Caracas');
     $appId='1153047962046613';
     $secretKey='i3RGdgCvJXrKT1ceMNOHs4YLNHdgZ9Mj';
-    $redirectURI="https://app.oxas.tech/administracion/common/redirect.php";
+    $redirectURI=$GLOBALS['https_url_app']."/administracion/common/redirect.php";
   }else if($siteId=="MLC"){
     date_default_timezone_set('America/Santiago');
     $appId='884214179114152';
     $secretKey='NpVPyfC6vtrFdS5EZ9Sr2DQe5sAOrXAK';
-    $redirectURI="https://app.oxas.tech/administracion/common/redirect2.php";
+    $redirectURI=$GLOBALS['https_url_app']."/administracion/common/redirect2.php";
   }
 }else{
-  header('Location: https://app.oxas.tech/');
+  header('Location: '.$GLOBALS['https_url_app']);
 }
 ?>
