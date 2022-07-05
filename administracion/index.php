@@ -74,10 +74,10 @@ $monto_disponible = $var->available_balance;
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-      <?php include 'common/navbar.php'; ?>
+      <?php //include 'common/navbar.php'; ?>
       <div class="content-wrapper">
             <div class="container-fluid">
-                  <?php include "common/breadcrumb.php"; ?>
+                  <?php //include "common/breadcrumb.php"; ?>
                   <br>
                   <div class="alert alert-info" role="alert">
                         Dudas, Sugerencias o Comentarios<br> <small class="text-muted">Esta es Nuestra <span class="text-dark">Versión Beta</span>, por lo que tu opinión y comentarios son importantes para mejorar la Plataforma Oxas.
