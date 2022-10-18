@@ -209,8 +209,8 @@ CREATE TABLE `sellers`(
 -- INSERTAR VALORES
 INSERT INTO `settings` (`field`, `value`) 
        VALUES ('https_url_app', 'https://asvzla.ml'),
-              ('app_id_vzla',      '1602925684695692'),
-              ('secret_key_vzla',  '80bCAz94NOVCLXWF4z0tZPFvwcVlMVjE'),
+              ('app_id_vzla',      '7998065374551239'),
+              ('secret_key_vzla',  'jj1SMfGUjsW7ooY9IgsmXGDNEmcgxPdC'),
               -- ('app_id_vzla',      '6021623127840893'),
               -- ('secret_key_vzla',  'esZADLxWSqBWYf7gf0Fcr9JSCzYpR3OR'),
               ('redirect_url',     'https://asvzla.ml/administracion/common/redirect.php');
