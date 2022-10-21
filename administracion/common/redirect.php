@@ -13,8 +13,6 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
 
     if ($_GET['code']) { // If code exist and session is empty
         $user = $meli->authorize($_GET['code'], $_SESSION['redirect_url']);
-        var_dump($user);
-        die();
         $AT   = $user['body']->access_token;
         $RT   = $user['body']->refresh_token;
         $expires_in = $user['body']->expires_in;
@@ -26,15 +24,13 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         curl_setopt($ch, CURLOPT_URL, "https://api.mercadolibre.com/users/me?access_token=$AT");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
         curl_close($ch);
-        $reply = json_decode($result);
-        var_dump($reply);
-        $telppal   = @$reply->phone->area_code . $reply->phone->number;
-        $telsecond = @$reply->alternative_phone->area_code . $reply->alternative_phone->number;
-        $site_id   = @$reply->site_id;
+        $response = json_decode($result);
+        var_dump($response);
+
+        $telppal   = @$response->phone->area_code . $response->phone->number;
+        $telsecond = @$response->alternative_phone->area_code . $response->alternative_phone->number;
+        $site_id   = @$response->site_id;
         $email     = $email;
         $user_id   = $user_id;
         #existe el usuario?
@@ -66,7 +62,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
             setcookie("id_user", $user_id, $duracion, $ruta);
             echo "ANTES de Insertar el user<br>";
             die();
-            insertUser($user_id, $email, $AT, $RT, $reply->first_name, $reply->last_name, $telppal, $telsecond, $site_id);
+            insertUser($user_id, $email, $AT, $RT, $response->first_name, $response->last_name, $telppal, $telsecond, $site_id);
             echo "Inserto el user<br>";
             #registra la suscripcion
             //Fecha Actual de Registro
@@ -105,7 +101,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
                     echo 'Error:' . curl_error($ch);
                 }
                 curl_close($ch);
-                $reply = json_decode($result);
+                $response = json_decode($result);
                 if (userExist($user_id, $email)) {
                     #actualizar tokens
                     setcookie("id_user", $user_id, $duracion, $ruta);
