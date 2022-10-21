@@ -13,6 +13,8 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
 
     if ($_GET['code']) { // If code exist and session is empty
         $user = $meli->authorize($_GET['code'], $_SESSION['redirect_url']);
+        var_dump($user);
+        die();
         $AT   = $user['body']->access_token;
         $RT   = $user['body']->refresh_token;
         $expires_in = $user['body']->expires_in;
@@ -29,6 +31,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         }
         curl_close($ch);
         $reply = json_decode($result);
+        var_dump($reply);
         $telppal   = @$reply->phone->area_code . $reply->phone->number;
         $telsecond = @$reply->alternative_phone->area_code . $reply->alternative_phone->number;
         $site_id   = @$reply->site_id;

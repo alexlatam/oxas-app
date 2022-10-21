@@ -51,11 +51,11 @@ class Meli
         if ($redirect_uri)
             $this->redirect_uri = $redirect_uri;
         $body = array(
-            "grant_type" => "authorization_code",
-            "client_id" => $this->client_id,
+            "grant_type"    => "authorization_code",
+            "client_id"     => $this->client_id,
             "client_secret" => $this->client_secret,
-            "code" => $code,
-            "redirect_uri" => $this->redirect_uri
+            "code"          => $code,
+            "redirect_uri"  => $this->redirect_uri
         );
         $opts = array(
             CURLOPT_POST => true,
