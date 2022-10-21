@@ -4,6 +4,7 @@ require "administracion/precios/index.php";
 // if (isset($_GET['r'])) {
 //   $respuesta_form = $_GET['r'];
 // }
+die();
 ?>
 
 <!DOCTYPE html>
