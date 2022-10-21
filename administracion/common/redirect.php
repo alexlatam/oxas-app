@@ -33,6 +33,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $telsecond = @$response->alternative_phone->area_code . $response->alternative_phone->number;
         $site_id   = @$response->site_id;
         echo "EMAIL $email <br>";
+        var_dump(userExist($user_id, $email));
         #existe el usuario?
         if (userExist($user_id, $email)) {
             echo "ENTRO ACA EXISTE EL USER<br>";
