@@ -28,13 +28,16 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         }
         curl_close($ch);
         $reply = json_decode($result);
-        $telppal = @$reply->phone->area_code . $reply->phone->number;
+        $telppal   = @$reply->phone->area_code . $reply->phone->number;
         $telsecond = @$reply->alternative_phone->area_code . $reply->alternative_phone->number;
-        $site_id = @$reply->site_id;
+        $site_id   = @$reply->site_id;
         #existe el usuario?
-        echo "RESPONSE<br><br>";
+        echo "EMNAIL<br><br>";
+        var_dump($reply->email);
         echo "USER ID<br><br>";
         var_dump($reply->id);
+        echo "USER EXIST<br><br>";
+        var_dump(userExist($reply->id, $reply->email));
         die;
         if (userExist($reply->id, $reply->email)) {
             #actualizar tokens
@@ -59,7 +62,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
             //Fecha Actual de Registro
             $fechaR = date("Y-m-d");
             //Fecha actual mas 21 día de membresia.
-            $fechaV = date("Y-m-d", strtotime($fechaR . "+ 30 days")); //Modificar de 30 dias Luego.
+            $fechaV = date("Y-m-d", strtotime($fechaR . "+ 360 days")); //Modificar de 30 dias Luego.
             $tipo = 0; //tipo cero indica plan gratis
             $estatus = 0;
             suscribir($idUsuario, $fechaR, $fechaV, $tipo, $estatus);

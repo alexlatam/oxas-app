@@ -169,15 +169,14 @@ function userExist($idUsuario, $correo)
 {
   #configuracion de BD
   include 'conexion.php';
-  $sql = "select * from `usuario` where `id`='$idUsuario' and `CORREO`='$correo' limit 1";
+  $sql = "select * from `usuario` where `id`=$idUsuario and `CORREO`='$correo' limit 1;";
   $result = $conn->query($sql);
+  $band = 0;
   if ($result->num_rows > 0) {
     $band = 1;
-  } else {
-    $band = 0;
   }
   $conn->close();
-  return $band;
+  return $band ? true : false;
 }
 #funcion para eliminar un usuario - checked
 function deleteUser($idusuario)
