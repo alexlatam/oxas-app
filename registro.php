@@ -16,10 +16,10 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     
-    if    ($row['field'] == 'https_url_app'){$_SESSION["https_url_app"] = $row['https_url_app'];}
-    elseif($row['field'] == 'secret_key'){   $_SESSION["secret_key"]    = $row['secret_key'];}
-    elseif($row['field'] == 'redirect_url'){ $_SESSION["redirect_url"]  = $row['redirect_url'];}
-    elseif($row['field'] == 'app_id'){       $_SESSION["app_id"]        = $row['app_id'];}
+    if    ($row['field'] == 'https_url_app'){   $_SESSION["https_url_app"] = $row['https_url_app'];}
+    elseif($row['field'] == 'secret_key_vzla'){ $_SESSION["secret_key"]    = $row['secret_key_vzla'];}
+    elseif($row['field'] == 'redirect_url'){    $_SESSION["redirect_url"]  = $row['redirect_url'];}
+    elseif($row['field'] == 'app_id_vzla'){     $_SESSION["app_id"]        = $row['app_id_vzla'];}
     
   }
 }
