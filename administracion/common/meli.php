@@ -31,11 +31,12 @@ class Meli
     protected $redirect_uri;
     protected $refresh_token;
     protected $access_token;
+
     public function __construct($client_id, $client_secret, $access_token = null, $refresh_token = null)
     {
-        $this->client_id = $client_id;
+        $this->client_id     = $client_id;
         $this->client_secret = $client_secret;
-        $this->access_token = $access_token;
+        $this->access_token  = $access_token;
         $this->refresh_token = $refresh_token;
     }
     public function getAuthUrl($redirect_uri, $auth_url)
