@@ -21,7 +21,7 @@ if ($res->num_rows > 0) {
   }
 }
 
-$appId     = $_SESSION['app_id'];
+$appId     = $_SESSION['client_id'];
 $secretKey = $_SESSION['secret_key'];
 
 //Funcion que actualiza el AccessToken

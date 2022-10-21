@@ -5,7 +5,7 @@ include 'conexion.php';
 include '../Oxa/Funciones.php';
 
 date_default_timezone_set('America/Caracas');
-$meli = new Meli($_SESSION['app_id'], $_SESSION['secret_key']);
+$meli = new Meli($_SESSION['client_id'], $_SESSION['secret_key']);
 
 // si existe un codigo(code), quiere decir que se esta registrando por 1 vez, 
 // si existe un validate quiere decir q ya se habia registrado antes
