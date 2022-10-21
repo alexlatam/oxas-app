@@ -5,7 +5,6 @@ require "administracion/precios/index.php";
 //   $respuesta_form = $_GET['r'];
 // }
 
-die();
 ?>
 
 <!DOCTYPE html>
