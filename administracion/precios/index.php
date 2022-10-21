@@ -5,5 +5,5 @@ curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
 $result=curl_exec($ch);
 curl_close($ch);
 $consulta=json_decode($result);
-$dolar=@$consulta->USD->transferencia;
- ?>
+var_dump($consulta);
+// $dolar=@$consulta->USD->transferencia;
