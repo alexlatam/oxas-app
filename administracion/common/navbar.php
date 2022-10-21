@@ -1,3 +1,29 @@
+<?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://api.mercadolibre.com/orders/search/recent?seller=' . $id_user . '&sort=date_desc&access_token=' . $AccessToken);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);
+curl_reset($ch);
+$consulta = json_decode($result);
+$ventas_resultados = $consulta->results;
+$total_ventas_abiertas = 0;
+foreach ($ventas_resultados as $value) {
+  $feedback = $value->feedback;
+  if (!isset($feedback->sale)) {
+    if (!isset($feedback->purchase)) {
+      ++$total_ventas_abiertas;
+    }
+  }
+}
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://api.mercadolibre.com/questions/search?seller_id=' . $id_user . '&status=unanswered&access_token=' . $AccessToken);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+$consulta = json_decode($result);
+$total_preguntas = $consulta->total;
+?>
 <nav class='navbar navbar-expand-lg navbar-light bg-light fixed-top border-bottom border-muted' id='mainNav'>
   <a class='navbar-brand text-secondary' href='/administracion/'>Oxas - Principal</a>
   <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarResponsive' aria-controls='navbarResponsive' aria-expanded='false' aria-label='Toggle navigation'>
@@ -5,7 +31,7 @@
   </button>
   <div class='collapse navbar-collapse' id='navbarResponsive'>
     <ul class='navbar-nav navbar-sidenav border-right border-muted' id='exampleAccordion'>
-      <?php if (isset($_COOKIE['_validate'])) {
+      <!-- <?php if (isset($_COOKIE['_validate'])) {
         if ($_COOKIE['_validate'] != 1) {
           $sqlOX = "SELECT IDREVENDEDOR FROM revendedores WHERE USUARIOID=$id_user LIMIT 1";
           if ($conn->query($sqlOX)) {
@@ -25,22 +51,14 @@
               }
             }
           }
-          ?>
-          <!--li class='nav-item ' data-toggle='tooltip' data-placement='right' title='Respuestas Automáticas'>
-<a class='nav-link ' href='/administracion/respuestas_automaticas/'>
-<svg xmlns='http://www.w3.org/2000/svg' width='19px' viewBox='0 0 640 512'><path fill="#bc6dcc" d='M128 352H32c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32zm-24-80h192v48h48v-48h192v48h48v-57.59c0-21.17-17.23-38.41-38.41-38.41H344v-64h40c17.67 0 32-14.33 32-32V32c0-17.67-14.33-32-32-32H256c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h40v64H94.41C73.23 224 56 241.23 56 262.41V320h48v-48zm264 80h-96c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32zm240 0h-96c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32z'/></svg>
-<span class='nav-link-text'>Respuestas Automáticas</span>
-</a>
-</li-->
-          <?php
-          $ch = curl_init();
-          curl_setopt($ch, CURLOPT_URL, 'https://api.mercadolibre.com/questions/search?seller_id=' . $id_user . '&status=unanswered&access_token=' . $AccessToken);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-          $result = curl_exec($ch);
-          curl_close($ch);
-          $consulta = json_decode($result);
-          $total_preguntas = $consulta->total;
-          ?>
+          ?> -->
+          <li class='nav-item ' data-toggle='tooltip' data-placement='right' title='Respuestas Automáticas'>
+            <a class='nav-link ' href='/administracion/respuestas_automaticas/'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='19px' viewBox='0 0 640 512'>
+                <path fill="#bc6dcc" d='M128 352H32c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32zm-24-80h192v48h48v-48h192v48h48v-57.59c0-21.17-17.23-38.41-38.41-38.41H344v-64h40c17.67 0 32-14.33 32-32V32c0-17.67-14.33-32-32-32H256c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h40v64H94.41C73.23 224 56 241.23 56 262.41V320h48v-48zm264 80h-96c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32zm240 0h-96c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h96c17.67 0 32-14.33 32-32v-96c0-17.67-14.33-32-32-32z' />
+              </svg>
+              <span class='nav-link-text'>Respuestas Automáticas</span>
+            </a>
           <li class='nav-item' data-toggle='tooltip' data-placement='right' title='Preguntas Pendientes'>
             <a class='nav-link' href='/administracion/preguntas.php'>
               <svg xmlns='http://www.w3.org/2000/svg' width='17px' viewBox='0 0 576 512'>
@@ -58,24 +76,7 @@
               <span class='nav-link-text icon_public'>Publicaciones</span>
             </a>
           </li>
-          <?php
-          $ch = curl_init();
-          curl_setopt($ch, CURLOPT_URL, 'https://api.mercadolibre.com/orders/search/recent?seller=' . $id_user . '&sort=date_desc&access_token=' . $AccessToken);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-          $result = curl_exec($ch);
-          curl_reset($ch);
-          $consulta = json_decode($result);
-          $ventas_resultados = $consulta->results;
-          $total_ventas_abiertas = 0;
-          foreach ($ventas_resultados as $value) {
-            $feedback = $value->feedback;
-            if (!isset($feedback->sale)) {
-              if (!isset($feedback->purchase)) {
-                ++$total_ventas_abiertas;
-              }
-            }
-          }
-          ?>
+
           <li class='nav-item' data-toggle='tooltip' data-placement='right' title='Ventas'>
             <a class='nav-link' href='/administracion/ventas/'>
               <svg xmlns='http://www.w3.org/2000/svg' width='17px' viewBox='0 0 576 512'>
@@ -101,8 +102,8 @@
               <span class='nav-link-text icon_public'>Estadísticas</span>
             </a>
           </li>
-      <?php }
-      } ?>
+      <!-- <?php }
+      } ?> -->
       <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Planes y Suscripción">
         <a class="nav-link" href="/administracion/suscripcion/">
           <svg xmlns="http://www.w3.org/2000/svg" width="17px" class="svg-primary" viewBox="0 0 576 512">
