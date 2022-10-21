@@ -10,12 +10,14 @@ if ( !isset($_GET['site']) ) {
 
 $siteId      = $_GET['site'];
 
-$sql="SELECT * FROM settings";
+$sql="SELECT * FROM settings;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
+  echo "AQUI<br>";
   while($row = $result->fetch_assoc()) {
-    
+    echo $row['field'];
+    echo "<br>";
     if    ($row['field'] == 'https_url_app'){ $_SESSION["https_url_app"] = $row['https_url_app'];}
     elseif($row['field'] == 'secret_key'){    $_SESSION["secret_key"]    = $row['secret_key'];}
     elseif($row['field'] == 'redirect_url'){  $_SESSION["redirect_url"]  = $row['redirect_url'];}
