@@ -1,12 +1,15 @@
 <?php
 session_start();
-require '../Oxa/Funciones.php';require '../common/conexion.php';require '../common/take_at.php';require '../common/account-off.php';
-$idUsuario=$id_user;
+require '../common/functions.php';
+require '../common/conexion.php';
+require '../common/take_at.php';
+require '../common/account-off.php';
+
 //Estatus - Good (0)
 $estatus=0;
 if(isset($_GET['respuestaauto'],$_GET['palabrasclave'])){
-      $respuesta=$_GET['respuestaauto'];
-      $keywords=$_GET['palabrasclave'];
+      $respuesta = $_GET['respuestaauto'];
+      $keywords  = $_GET['palabrasclave'];
       //Palabras clave - Keyswords
       if($keywords!=NULL){
         $keywords=strtolower($keywords);
@@ -18,10 +21,10 @@ if(isset($_GET['respuestaauto'],$_GET['palabrasclave'])){
       //Respuesta
       #Estatus Error - Sin respuesta asignada (6)
       if($respuesta==NULL){$estatus=6;}
-/** Conseguir publicaciones de la session **/
-if(isset($_SESSION['array_publicaciones'])){
-      $publicaciones=$_SESSION['array_publicaciones'];
-      if($publicaciones!=NULL){
+      /** Conseguir publicaciones de la session **/
+      if(isset($_SESSION['array_publicaciones'])){
+        $publicaciones = $_SESSION['array_publicaciones'];
+        if($publicaciones!=NULL){
           if(@$publicaciones[0]==1){
             //Seleccionar todos - ON
             $codigos=array();
@@ -106,9 +109,7 @@ if(isset($_SESSION['array_publicaciones'])){
                 }
               }
             }
-            /**
-            2do Deseleccionar las publicaciones deseleccinadas
-            **/
+            /** 2do Deseleccionar las publicaciones deseleccinadas **/
             foreach($publicaciones as $valor){
               if($valor!=1){
                 $p=explode('~¬',$valor);
@@ -132,18 +133,18 @@ if(isset($_SESSION['array_publicaciones'])){
               array_push($nombres,$nombre_p);
             }
           }
-      }else{
-        //Estatus de Advertencia - No hay publicaciones asignadas (2)
-        if($estatus<2){$estatus=1;}
+        }else{
+          //Estatus de Advertencia - No hay publicaciones asignadas (2)
+          if($estatus<2){$estatus=1;}
+        }
       }
-  }
+      
       //Verificar que no existe error
       if($estatus<=1){
         //idRespuesta si es una actualizacion.
         if(isset($_GET['idrespuesta'])){
-          /**
-            Actualizacion de Auto Respuestas
-           **/
+            
+            /** Actualizacion de Auto Respuestas **/
             $idRespuesta=$_GET['idrespuesta'];
             $id_public_array=array();
             $n=0;
@@ -152,87 +153,71 @@ if(isset($_SESSION['array_publicaciones'])){
                for($i=0;$i<count($codigos);$i++){
                 $n++;
                   #if la publicacion no existe, creala
-                  if (!publicacionExist($idUsuario, $codigos[$i]) ){
-                      $idp=createPublicacion($idUsuario, $codigos[$i], $nombres[$i]);
+                  if (!publicacionExist($id_user, $codigos[$i]) ){
+                      $idp=createPublicacion($id_user, $codigos[$i], $nombres[$i]);
                   }else{
-                      $idp=getIdPublicacion($idUsuario,$codigos[$i]);
+                      $idp=getIdPublicacion($id_user,$codigos[$i]);
                   }
                   array_push($id_public_array, $idp);
                 }
             }
             #(2.0) Elimina Respuesta
             $idInfo =$idRespuesta;
-            deleteInfo($idInfo, $idUsuario);
+            deleteInfo($idInfo, $id_user);
             #(2) Modificar Respuestas
             if(!($respuesta==NULL or $keywords==NULL) ){
                 //informacion
                 $info=$respuesta;
                 //numero de publicaciones
                 $numPublicaciones=$n;
-                createInfoId($idInfo,$idUsuario, $info, $keywords, $numPublicaciones);
+                createInfoId($idInfo,$id_user, $info, $keywords, $numPublicaciones);
                 #echo $idInfo;
             }
-        # Estatus Error - problemas al enlazar (5)
+            # Estatus Error - problemas al enlazar (5)
+            $error=0;
+            if (!($respuesta==NULL or $keywords==NULL or $publicaciones==NULL))  {
+              foreach($id_public_array as $idpublicacion){
+                $out=enlazar( $idInfo,$idpublicacion);
+                $error=$error+$out;
+              }
+              if ($error>0){
+                $estatus=5;
+              }
+            }
+        }else{
+          /** Creacion de Auto Respuestas **/
+          $n=0;
+          $id_public_array=array();
+          #(1) Crear publicaciones
+          if(!($publicaciones==NULL)){
+            $n = count($codigos);
+            foreach ($codigos as $key => $value){
+                $idp = (!publicacionExist($id_user,$value)) 
+                          ? createPublicacion($id_user,$value,$nombres[$key]) 
+                          : $idp=getIdPublicacion($id_user,$value);
+
+                array_push($id_public_array,$idp);
+            }
+          }
+          #(2) Crear Respuestas
+          if(!($respuesta==NULL or $keywords==NULL) ){
+                  #informacion
+              $info=$respuesta;
+              #numero de publicaciones
+              $numPublicaciones=$n;
+              $idInfo=createInfo($id_user,$info,$keywords,$numPublicaciones);
+              # echo $idInfo;
+          }
+          #(3) Crear Enlaces
           $error=0;
-          if (!($respuesta==NULL or $keywords==NULL or $publicaciones==NULL))  {
+          if(!($respuesta==NULL or $keywords==NULL or $publicaciones==NULL)){
             foreach($id_public_array as $idpublicacion){
-              $out=enlazar( $idInfo,$idpublicacion);
+              $out=enlazar($idInfo,$idpublicacion);
               $error=$error+$out;
             }
-            if ($error>0){
-              $estatus=5;
-            }
+            if($error>0){$estatus=5;}
           }
-        }else{
-        /**
-         Creacion de Auto Respuestas
-         **/
-        $n=0;
-        $id_public_array=array();
-        #(1) Crear publicaciones
-        if(!($publicaciones==NULL)){
-
-          foreach ($codigos as $value){
-              $n++;
-              if (!publicacionExist($idUsuario,$value)){
-                $idp=createPublicacion($idUsuario,$value,$nombres[$key]);
-              }else{
-                $idp=getIdPublicacion($idUsuario,$value);
-              }
-              array_push($id_public_array,$idp);
-          }
-        /*  for($i=0; $i<count($codigos);$i++){
-            $n++;
-            # foreach($codigos as $codigo){
-            #if la publicacion no existe, creala
-            if (!publicacionExist($idUsuario, $codigos[$i]) ){
-              $idp=createPublicacion($idUsuario, $codigos[$i], $nombres[$i]);
-            }else{
-              $idp= getIdPublicacion($idUsuario, $codigos[$i]);
-            }
-            array_push($id_public_array, $idp);
-          }
-        */
         }
-        #(2) Crear Respuestas
-        if(!($respuesta==NULL or $keywords==NULL) ){
-                #informacion
-            $info=$respuesta;
-            #numero de publicaciones
-            $numPublicaciones=$n;
-            $idInfo=createInfo($idUsuario,$info,$keywords,$numPublicaciones);
-      #      echo $idInfo;
-        }
-        #(3) Crear Enlaces
-        $error=0;
-        if(!($respuesta==NULL or $keywords==NULL or $publicaciones==NULL)){
-          foreach($id_public_array as $idpublicacion){
-            $out=enlazar($idInfo,$idpublicacion);
-            $error=$error+$out;
-          }
-          if($error>0){$estatus=5;}
-        }
-      }
     }
 
 }else{$estatus=2;}
@@ -247,4 +232,3 @@ if(isset($_SESSION['array_publicaciones'])){
 */
 if($estatus<=1){$_SESSION['array_publicaciones']=array();}
 echo $estatus;
- ?>

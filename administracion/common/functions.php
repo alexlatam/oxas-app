@@ -295,31 +295,24 @@ function getSaludos($idusuario)
   return array('SALUDO' => $saludo, 'DESPEDIDA' => $despedida);
 }
 #Guardar publicacion en base de datos  -checked
-function createPublicacion($idUsuario, $codigo, $nombre)
+function createPublicacion(string $idUsuario, string $codigo, string $nombre) : ?int
 {
-  include 'conexion.php';
-  $sql = "insert into `publicacion`(`user_id`,`CODIGO`,`NOMBRE`,`ESTATUS`) values ('$idUsuario','$codigo','$nombre',1)";
-  if ($conn->query($sql) === TRUE) {
-    $last_id = mysqli_insert_id($conn);
-    #  echo "New record created successfully";
-  } else {
-    #  echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
+  global $conn;
+
+  $sql     = "insert into `publicacion`(`user_id`,`CODIGO`,`NOMBRE`) values ('$idUsuario','$codigo','$nombre')";
+  $last_id = ($conn->query($sql) === TRUE) ? mysqli_insert_id($conn) : null;
+
   return $last_id;
 }
 #existe publicacion
-function publicacionExist($idUsuario, $codigo)
+function publicacionExist( string $idUsuario, string $codigo) : bool
 {
-  include 'conexion.php';
-  $sql = "select * from `publicacion` where `user_id`='$idUsuario' and `CODIGO`='$codigo' limit 1";
+  global $conn;
+
+  $sql    = "select * from `publicacion` where `user_id`='$idUsuario' and `CODIGO`='$codigo' limit 1";
   $result = $conn->query($sql);
-  if ($result->num_rows > 0) {
-    $band = 1;
-  } else {
-    $band = 0;
-  }
-  $conn->close();
+  $band   = ($result->num_rows) ? true : false;
+  
   return $band;
 }
 #consigue el IDpublicacion

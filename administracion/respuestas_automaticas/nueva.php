@@ -291,7 +291,9 @@ $_SESSION['array_publicaciones'] = array();
           band: band
         }, verificar, "text");
 
-        function verificar(respuesta) {}
+        function verificar(respuesta) {
+          // console.log(respuesta);
+        }
       });
       //agregar palabra clave a las keywords con tecla enter
       $("#filter").keypress(function(e) {
@@ -357,6 +359,7 @@ $_SESSION['array_publicaciones'] = array();
         }, verificar, "text");
 
         function verificar(valor) {
+          console.log(valor);
           if (valor == "0") {
             const toast = swal.mixin({
               toast: true,
@@ -376,7 +379,6 @@ $_SESSION['array_publicaciones'] = array();
             $("input:checkbox:checked").each(function() {
               $(this).prop('checked', false);
             });
-            setTimeout("$('button#close_loader').click();", 500);
           } else if (valor == "1") {
             const toast = swal.mixin({
               toast: true,
@@ -396,7 +398,6 @@ $_SESSION['array_publicaciones'] = array();
             $("input:checkbox:checked").each(function() {
               $(this).prop('checked', false);
             });
-            setTimeout("$('button#close_loader').click();", 500);
           } else {
             const toast = swal.mixin({
               toast: true,
@@ -408,8 +409,8 @@ $_SESSION['array_publicaciones'] = array();
               type: 'error',
               title: '¡Hubo un error! \n ¡Inténtalo de nuevo!'
             });
-            setTimeout("$('button#close_loader').click();", 500);
           }
+          setTimeout("$('button#close_loader').click();", 500);
         }
       });
     </script>
