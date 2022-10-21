@@ -1,9 +1,15 @@
 <?php
 require 'administracion/common/conexion.php';
-require "administracion/precios/index.php";
+// require "administracion/precios/index.php";
 // if (isset($_GET['r'])) {
 //   $respuesta_form = $_GET['r'];
 // }
+
+$ch = curl_init();
+// curl_setopt($ch,CURLOPT_URL,'https://s3.amazonaws.com/dolartoday/data.json');
+// curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+// $result = curl_exec($ch);
+curl_close($ch);
 die();
 ?>
 
