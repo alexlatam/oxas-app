@@ -15,6 +15,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $user = $meli->authorize($_GET['code'], $_SESSION['redirect_url']);
         $AT   = $user['body']->access_token;
         $RT   = $user['body']->refresh_token;
+        $expires_in = $user['body']->expires_in;
         #Creacion de Cookies
         $duracion = time() + 5 * 60 * 60; #Duracion de la COOKIE 6Hr
         $ruta = "/";
@@ -42,6 +43,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         // var_dump(userExist($user_id, $email));
         // die;
         if (userExist($user_id, $email)) {
+            echo "ENTRO ACA EXISTE EL USER<br>";
             #actualizar tokens
             setcookie("id_user", $user_id, $duracion, $ruta);
             updateTokens($user_id, $AT, $RT);
@@ -52,13 +54,16 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
                 $row = $r->fetch_assoc();
                 $estatus = $row['ESTATUS'];
                 setcookie("_validate", $estatus, $duracion, $ruta);
-                setcookie("expires_in", time() + $user['body']->expires_in, $duracion, $ruta);
+                setcookie("expires_in", time() + $expires_in, $duracion, $ruta);
             }
         } else {
+            echo "ENTRO ACA NOO EXISTE EL USER<br>";
             #No existe el Usuario
             #guardar en base de datos user_id, Correo, AccessToken, refreshToken
             setcookie("id_user", $user_id, $duracion, $ruta);
             insertUser($user_id, $email, $AT, $RT, $reply->first_name, $reply->last_name, $telppal, $telsecond, $site_id);
+            echo "Inserto el user<br>";
+            die();
             #registra la suscripcion
             //Fecha Actual de Registro
             $fechaR = date("Y-m-d");
@@ -69,12 +74,12 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
             suscribir($user_id, $fechaR, $fechaV, $tipo, $estatus);
             #crearmos cookies de acceso
             setcookie("_validate", $estatus, $duracion, $ruta);
-            setcookie("expires_in", time() + $user['body']->expires_in, $duracion, $ruta);
+            setcookie("expires_in", time() + $expires_in, $duracion, $ruta);
             //enviar correo a nuevo usuario
             // $destinatario = $email;
             // include('../correos/bienvenida.php');
         }
-        header('location:../');
+        // header('location:../');
     } else {
         // We can check if the access token in invalid checking the time
         if ($_COOKIE['expires_in'] < time()) {

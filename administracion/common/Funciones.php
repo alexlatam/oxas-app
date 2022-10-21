@@ -162,9 +162,9 @@ function insertUser($id, $correo, $accesstoken, $refresstoken, $first_name, $las
           VALUES 
               ('$id','$correo','$first_name','$last_name','$telppal','$telsecond','$accesstoken','$refresstoken','2022','$site_id')";
   if ($conn->query($sql) === TRUE) {
-    #  echo "New record created successfully";
+    echo "New record created successfully";
   } else {
-    #  echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
 }
