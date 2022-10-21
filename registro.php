@@ -23,6 +23,8 @@ if ($result->num_rows > 0) {
     
   }
 }
-
+var_dump($_SESSION['secret_key']);
+var_dump(Meli::$AUTH_URL[$siteId]);
+die();
 $meli = new Meli($_SESSION['client_id'], $_SESSION['secret_key']);
 header("location: " . $meli->getAuthUrl( $_SESSION['redirect_url'], Meli::$AUTH_URL[$siteId] ));
