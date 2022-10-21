@@ -1,6 +1,4 @@
 <?php
-
-die();
 session_start();
 require 'common/meli.php';
 require 'common/conexion.php';
@@ -76,7 +74,7 @@ $monto_disponible = $var->available_balance;
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-      <?php //include 'common/navbar.php'; ?>
+      <?php // include 'common/navbar.php'; ?>
       <div class="content-wrapper">
             <div class="container-fluid">
                   <?php //include "common/breadcrumb.php"; ?>

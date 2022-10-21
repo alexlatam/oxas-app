@@ -154,37 +154,32 @@ function eliminar_simbolos($string)
 /*****Funciones para el manejo en base de datos*******/
 /******************************************************/
 #Funcion para añadir un usuario - checked
-function insertUser($id, $correo, $accesstoken, $refresstoken, $first_name, $last_name, $telppal, $telsecond, $site_id)
+function insertUser($id, $correo, $accesstoken, $refresstoken, $first_name, $last_name, $telppal, $telsecond)
 {
   global $conn;
-  echo "first_name: $first_name <br>";
+  
   $sql = "INSERT INTO `usuario`
-              (`id`,`CORREO`,`NAME`,`LASTNAME`,`TELPPAL`,`TELSECOND`,`ACCESSTOKEN`,`REFRESTOKEN`,`ULTIMAFECHA`,`PAIS`) 
+              (`id`,`CORREO`,`NAME`,`LASTNAME`,`TELPPAL`,`TELSECOND`,`ACCESSTOKEN`,`REFRESTOKEN`,`ULTIMAFECHA`) 
           VALUES 
-              ('$id','$correo','$first_name','$last_name','$telppal','$telsecond','$accesstoken','$refresstoken','2022','$site_id')";
+              ('$id','$correo','$first_name','$last_name','$telppal','$telsecond','$accesstoken','$refresstoken','2022')";
 
-  echo "SQL: $sql <br>";
   if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+    // echo "New record created successfully";
   } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    // echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
 }
 
-function userExist($idUsuario, $correo)
+function userExist(int $user_id) : bool
 {
-  #configuracion de BD
   global $conn;
 
-  $sql = "select * from `usuario` where `id`=$idUsuario and `CORREO`='$correo';";
-  echo "SQL: $sql <br>";
+  $sql = "select * from `usuario` where `id`=$user_id;";
   $result = $conn->query($sql);
   $band = false;
-  if ($result->num_rows > 0) {
-    $band = true;
-  }
-  $conn->close();
+  if ($result->num_rows > 0) { $band = true; }
+
   return $band;
 }
 #funcion para eliminar un usuario - checked

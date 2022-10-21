@@ -27,18 +27,15 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         curl_close($ch);
         $response = json_decode($result);
 
-        $user_id   = $response->user_id;
+        $user_id   = $response->id;
         $email     = $response->email;
         $telppal   = @$response->phone->area_code . $response->phone->number;
         $telsecond = @$response->alternative_phone->area_code . $response->alternative_phone->number;
-        $site_id   = @$response->site_id;
-        echo "EMAIL $email <br>";
-        var_dump(userExist($user_id, $email));
+        setcookie("id_user", $user_id, $duracion, $ruta);
+        // print_r($_COOKIE);
         #existe el usuario?
-        if (userExist($user_id, $email)) {
-            echo "ENTRO ACA EXISTE EL USER<br>";
+        if (userExist($user_id)) {
             #actualizar tokens
-            setcookie("id_user", $user_id, $duracion, $ruta);
             updateTokens($user_id, $AT, $RT);
             //verifica la suscripcion
             $sql = "SELECT ESTATUS FROM suscripcion WHERE user_id=$user_id LIMIT 1;";
@@ -50,14 +47,9 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
                 setcookie("expires_in", time() + $expires_in, $duracion, $ruta);
             }
         } else {
-            echo "ENTRO ACA NOO EXISTE EL USER<br>";
             #No existe el Usuario
             #guardar en base de datos user_id, Correo, AccessToken, refreshToken
-            setcookie("id_user", $user_id, $duracion, $ruta);
-            echo "ANTES de Insertar el user<br>";
-            insertUser($user_id, $email, $AT, $RT, $response->first_name, $response->last_name, $telppal, $telsecond, $site_id);
-            echo "Inserto el user<br>";
-            die();
+            insertUser($user_id, $email, $AT, $RT, $response->first_name, $response->last_name, $telppal, $telsecond);
             #registra la suscripcion
             //Fecha Actual de Registro
             $fechaR = date("Y-m-d");
@@ -73,7 +65,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
             // $destinatario = $email;
             // include('../correos/bienvenida.php');
         }
-        // header('location:../');
+        header('location:../');
     } else {
         // We can check if the access token in invalid checking the time
         if ($_COOKIE['expires_in'] < time()) {
@@ -96,7 +88,7 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
                 }
                 curl_close($ch);
                 $response = json_decode($result);
-                if (userExist($user_id, $email)) {
+                if (userExist($user_id)) {
                     #actualizar tokens
                     setcookie("id_user", $user_id, $duracion, $ruta);
                     updateTokens($user_id, $AT, $RT);
