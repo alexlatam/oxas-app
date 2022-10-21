@@ -2,7 +2,7 @@
 session_start();
 require 'meli.php';
 include 'conexion.php';
-require 'funciones.php';
+require 'functions.php';
 
 date_default_timezone_set('America/Caracas');
 $meli = new Meli($_SESSION['client_id'], $_SESSION['secret_key']);
