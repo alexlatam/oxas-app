@@ -62,9 +62,9 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
             #guardar en base de datos user_id, Correo, AccessToken, refreshToken
             setcookie("id_user", $user_id, $duracion, $ruta);
             echo "ANTES de Insertar el user<br>";
+            die();
             insertUser($user_id, $email, $AT, $RT, $reply->first_name, $reply->last_name, $telppal, $telsecond, $site_id);
             echo "Inserto el user<br>";
-            die();
             #registra la suscripcion
             //Fecha Actual de Registro
             $fechaR = date("Y-m-d");
