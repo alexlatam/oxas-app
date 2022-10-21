@@ -1,4 +1,6 @@
 <?php
+phpinfo();
+die();
 require 'administracion/common/conexion.php';
 // require "administracion/precios/index.php";
 // if (isset($_GET['r'])) {
