@@ -175,8 +175,10 @@ function insertUser($id, $correo, $accesstoken, $refresstoken, $first_name, $las
 function userExist($idUsuario, $correo)
 {
   #configuracion de BD
-  include 'conexion.php';
+  global $conn;
+
   $sql = "select * from `usuario` where `id`=$idUsuario and `CORREO`='$correo';";
+  echo "SQL: $sql <br>";
   $result = $conn->query($sql);
   $band = false;
   if ($result->num_rows > 0) {
