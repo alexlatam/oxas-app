@@ -31,20 +31,22 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $telppal   = @$reply->phone->area_code . $reply->phone->number;
         $telsecond = @$reply->alternative_phone->area_code . $reply->alternative_phone->number;
         $site_id   = @$reply->site_id;
+        $email     = $email;
+        $user_id   = $user_id;
         #existe el usuario?
-        echo "EMNAIL<br><br>";
-        var_dump($reply->email);
-        echo "USER ID<br><br>";
-        var_dump($reply->id);
-        echo "USER EXIST<br><br>";
-        var_dump(userExist($reply->id, $reply->email));
-        die;
-        if (userExist($reply->id, $reply->email)) {
+        // echo "<br>EMNAIL<br><br>";
+        // var_dump($email);
+        // echo "<br>USER ID<br><br>";
+        // var_dump($user_id);
+        // echo "<br>USER EXIST<br><br>";
+        // var_dump(userExist($user_id, $email));
+        // die;
+        if (userExist($user_id, $email)) {
             #actualizar tokens
-            setcookie("id_user", $reply->id, $duracion, $ruta);
-            updateTokens($reply->id, $AT, $RT);
+            setcookie("id_user", $user_id, $duracion, $ruta);
+            updateTokens($user_id, $AT, $RT);
             //verifica la suscripcion
-            $sql = "SELECT ESTATUS FROM suscripcion WHERE user_id=$reply->id LIMIT 1;";
+            $sql = "SELECT ESTATUS FROM suscripcion WHERE user_id=$user_id LIMIT 1;";
             $r = $conn->query($sql);
             if ($r->num_rows > 0) {
                 $row = $r->fetch_assoc();
@@ -55,23 +57,22 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         } else {
             #No existe el Usuario
             #guardar en base de datos user_id, Correo, AccessToken, refreshToken
-            setcookie("id_user", $reply->id, $duracion, $ruta);
-            insertUser($reply->id, $reply->email, $AT, $RT, $reply->first_name, $reply->last_name, $telppal, $telsecond, $site_id);
+            setcookie("id_user", $user_id, $duracion, $ruta);
+            insertUser($user_id, $email, $AT, $RT, $reply->first_name, $reply->last_name, $telppal, $telsecond, $site_id);
             #registra la suscripcion
-            $idUsuario = $reply->id;
             //Fecha Actual de Registro
             $fechaR = date("Y-m-d");
             //Fecha actual mas 21 día de membresia.
-            $fechaV = date("Y-m-d", strtotime($fechaR . "+ 360 days")); //Modificar de 30 dias Luego.
-            $tipo = 0; //tipo cero indica plan gratis
+            $fechaV  = date("Y-m-d", strtotime($fechaR . "+ 360 days")); //Modificar de 30 dias Luego.
+            $tipo    = 0; //tipo cero indica plan gratis
             $estatus = 0;
-            suscribir($idUsuario, $fechaR, $fechaV, $tipo, $estatus);
+            suscribir($user_id, $fechaR, $fechaV, $tipo, $estatus);
             #crearmos cookies de acceso
             setcookie("_validate", $estatus, $duracion, $ruta);
             setcookie("expires_in", time() + $user['body']->expires_in, $duracion, $ruta);
             //enviar correo a nuevo usuario
-            $destinatario = $reply->email;
-            include('../correos/bienvenida.php');
+            // $destinatario = $email;
+            // include('../correos/bienvenida.php');
         }
         header('location:../');
     } else {
@@ -96,10 +97,10 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
                 }
                 curl_close($ch);
                 $reply = json_decode($result);
-                if (userExist($reply->id, $reply->email)) {
+                if (userExist($user_id, $email)) {
                     #actualizar tokens
-                    setcookie("id_user", $reply->id, $duracion, $ruta);
-                    updateTokens($reply->id, $AT, $RT);
+                    setcookie("id_user", $user_id, $duracion, $ruta);
+                    updateTokens($user_id, $AT, $RT);
                 }
             } catch (Exception $e) {
                 echo "Exception: ", $e->getMessage(), "\n";

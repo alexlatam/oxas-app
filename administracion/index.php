@@ -1,4 +1,6 @@
 <?php
+
+die();
 session_start();
 require 'common/meli.php';
 require 'common/conexion.php';

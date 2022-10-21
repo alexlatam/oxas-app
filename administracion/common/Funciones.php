@@ -157,7 +157,10 @@ function eliminar_simbolos($string)
 function insertUser($id, $correo, $accesstoken, $refresstoken, $first_name, $last_name, $telppal, $telsecond, $site_id)
 {
   include 'conexion.php';
-  $sql = "INSERT INTO `usuario`(`id`,`CORREO`,`NAME`,`LASTNAME`,`TELPPAL`,`TELSECOND`,`ACCESSTOKEN`,`REFRESTOKEN`,`ULTIMAFECHA`,`PAIS`) VALUES ('$id','$correo','$first_name','$last_name','$telppal','$telsecond','$accesstoken','$refresstoken','2020','$site_id')";
+  $sql = "INSERT INTO `usuario`
+              (`id`,`CORREO`,`NAME`,`LASTNAME`,`TELPPAL`,`TELSECOND`,`ACCESSTOKEN`,`REFRESTOKEN`,`ULTIMAFECHA`,`PAIS`) 
+          VALUES 
+              ('$id','$correo','$first_name','$last_name','$telppal','$telsecond','$accesstoken','$refresstoken','2022','$site_id')";
   if ($conn->query($sql) === TRUE) {
     #  echo "New record created successfully";
   } else {
@@ -165,18 +168,19 @@ function insertUser($id, $correo, $accesstoken, $refresstoken, $first_name, $las
   }
   $conn->close();
 }
+
 function userExist($idUsuario, $correo)
 {
   #configuracion de BD
   include 'conexion.php';
-  $sql = "select * from `usuario` where `id`=$idUsuario and `CORREO`='$correo' limit 1;";
+  $sql = "select * from `usuario` where `id`=$idUsuario and `CORREO`='$correo';";
   $result = $conn->query($sql);
-  $band = 0;
+  $band = false;
   if ($result->num_rows > 0) {
-    $band = 1;
+    $band = true;
   }
   $conn->close();
-  return $band ? true : false;
+  return $band;
 }
 #funcion para eliminar un usuario - checked
 function deleteUser($idusuario)
