@@ -156,11 +156,14 @@ function eliminar_simbolos($string)
 #Funcion para añadir un usuario - checked
 function insertUser($id, $correo, $accesstoken, $refresstoken, $first_name, $last_name, $telppal, $telsecond, $site_id)
 {
-  include 'conexion.php';
+  global $conn;
+  echo "first_name: $first_name <br>";
   $sql = "INSERT INTO `usuario`
               (`id`,`CORREO`,`NAME`,`LASTNAME`,`TELPPAL`,`TELSECOND`,`ACCESSTOKEN`,`REFRESTOKEN`,`ULTIMAFECHA`,`PAIS`) 
           VALUES 
               ('$id','$correo','$first_name','$last_name','$telppal','$telsecond','$accesstoken','$refresstoken','2022','$site_id')";
+
+  echo "SQL: $sql <br>";
   if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
   } else {
