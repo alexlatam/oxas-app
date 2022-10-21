@@ -32,11 +32,6 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $telsecond = @$reply->alternative_phone->area_code . $reply->alternative_phone->number;
         $site_id = @$reply->site_id;
         #existe el usuario?
-        echo "RESPONSE<br><br>";
-        var_dump($reply);
-        echo "USER ID<br><br>";
-        var_dump($reply->id);
-        die;
         if (userExist($reply->id, $reply->email)) {
             #actualizar tokens
             setcookie("id_user", $reply->id, $duracion, $ruta);
