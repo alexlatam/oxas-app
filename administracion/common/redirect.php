@@ -28,19 +28,12 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $response = json_decode($result);
         var_dump($response);
 
+        $user_id   = $response->user_id;
+        $email     = $response->email;
         $telppal   = @$response->phone->area_code . $response->phone->number;
         $telsecond = @$response->alternative_phone->area_code . $response->alternative_phone->number;
         $site_id   = @$response->site_id;
-        $email     = $email;
-        $user_id   = $user_id;
         #existe el usuario?
-        echo "<br>EMNAIL<br><br>";
-        var_dump($email);
-        echo "<br>USER ID<br><br>";
-        var_dump($user_id);
-        echo "<br>USER EXIST<br><br>";
-        var_dump(userExist($user_id, $email));
-        die;
         if (userExist($user_id, $email)) {
             echo "ENTRO ACA EXISTE EL USER<br>";
             #actualizar tokens
@@ -61,9 +54,9 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
             #guardar en base de datos user_id, Correo, AccessToken, refreshToken
             setcookie("id_user", $user_id, $duracion, $ruta);
             echo "ANTES de Insertar el user<br>";
-            die();
             insertUser($user_id, $email, $AT, $RT, $response->first_name, $response->last_name, $telppal, $telsecond, $site_id);
             echo "Inserto el user<br>";
+            die();
             #registra la suscripcion
             //Fecha Actual de Registro
             $fechaR = date("Y-m-d");
