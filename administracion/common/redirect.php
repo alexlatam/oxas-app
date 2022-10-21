@@ -35,13 +35,13 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $email     = $email;
         $user_id   = $user_id;
         #existe el usuario?
-        // echo "<br>EMNAIL<br><br>";
-        // var_dump($email);
-        // echo "<br>USER ID<br><br>";
-        // var_dump($user_id);
-        // echo "<br>USER EXIST<br><br>";
-        // var_dump(userExist($user_id, $email));
-        // die;
+        echo "<br>EMNAIL<br><br>";
+        var_dump($email);
+        echo "<br>USER ID<br><br>";
+        var_dump($user_id);
+        echo "<br>USER EXIST<br><br>";
+        var_dump(userExist($user_id, $email));
+        die;
         if (userExist($user_id, $email)) {
             echo "ENTRO ACA EXISTE EL USER<br>";
             #actualizar tokens
