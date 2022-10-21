@@ -33,47 +33,46 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $telsecond = @$response->alternative_phone->area_code . $response->alternative_phone->number;
         $site_id   = @$response->site_id;
         echo "EMAIL $email <br>";
-        // var_dump(userExist($user_id, $email));
+        var_dump(userExist($user_id, $email));
         #existe el usuario?
-        // if (userExist($user_id, $email)) {
-        //     echo "ENTRO ACA EXISTE EL USER<br>";
-        //     #actualizar tokens
-        //     setcookie("id_user", $user_id, $duracion, $ruta);
-        //     updateTokens($user_id, $AT, $RT);
-        //     //verifica la suscripcion
-        //     $sql = "SELECT ESTATUS FROM suscripcion WHERE user_id=$user_id LIMIT 1;";
-        //     $r = $conn->query($sql);
-        //     if ($r->num_rows > 0) {
-        //         $row = $r->fetch_assoc();
-        //         $estatus = $row['ESTATUS'];
-        //         setcookie("_validate", $estatus, $duracion, $ruta);
-        //         setcookie("expires_in", time() + $expires_in, $duracion, $ruta);
-        //     }
-        // } else {
-        //     echo "ENTRO ACA NOO EXISTE EL USER<br>";
-        //     #No existe el Usuario
-        //     #guardar en base de datos user_id, Correo, AccessToken, refreshToken
-        //     setcookie("id_user", $user_id, $duracion, $ruta);
-        //     echo "ANTES de Insertar el user<br>";
-        //     insertUser($user_id, $email, $AT, $RT, $response->first_name, $response->last_name, $telppal, $telsecond, $site_id);
-        //     echo "Inserto el user<br>";
-        //     die();
-        //     #registra la suscripcion
-        //     //Fecha Actual de Registro
-        //     $fechaR = date("Y-m-d");
-        //     //Fecha actual mas 21 día de membresia.
-        //     $fechaV  = date("Y-m-d", strtotime($fechaR . "+ 360 days")); //Modificar de 30 dias Luego.
-        //     $tipo    = 0; //tipo cero indica plan gratis
-        //     $estatus = 0;
-        //     suscribir($user_id, $fechaR, $fechaV, $tipo, $estatus);
-        //     #crearmos cookies de acceso
-        //     setcookie("_validate", $estatus, $duracion, $ruta);
-        //     setcookie("expires_in", time() + $expires_in, $duracion, $ruta);
-        //     //enviar correo a nuevo usuario
-        //     // $destinatario = $email;
-        //     // include('../correos/bienvenida.php');
-        // }
-        echo "GOLLLLAAAA";
+        if (userExist($user_id, $email)) {
+            echo "ENTRO ACA EXISTE EL USER<br>";
+            #actualizar tokens
+            setcookie("id_user", $user_id, $duracion, $ruta);
+            updateTokens($user_id, $AT, $RT);
+            //verifica la suscripcion
+            $sql = "SELECT ESTATUS FROM suscripcion WHERE user_id=$user_id LIMIT 1;";
+            $r = $conn->query($sql);
+            if ($r->num_rows > 0) {
+                $row = $r->fetch_assoc();
+                $estatus = $row['ESTATUS'];
+                setcookie("_validate", $estatus, $duracion, $ruta);
+                setcookie("expires_in", time() + $expires_in, $duracion, $ruta);
+            }
+        } else {
+            echo "ENTRO ACA NOO EXISTE EL USER<br>";
+            #No existe el Usuario
+            #guardar en base de datos user_id, Correo, AccessToken, refreshToken
+            setcookie("id_user", $user_id, $duracion, $ruta);
+            echo "ANTES de Insertar el user<br>";
+            insertUser($user_id, $email, $AT, $RT, $response->first_name, $response->last_name, $telppal, $telsecond, $site_id);
+            echo "Inserto el user<br>";
+            die();
+            #registra la suscripcion
+            //Fecha Actual de Registro
+            $fechaR = date("Y-m-d");
+            //Fecha actual mas 21 día de membresia.
+            $fechaV  = date("Y-m-d", strtotime($fechaR . "+ 360 days")); //Modificar de 30 dias Luego.
+            $tipo    = 0; //tipo cero indica plan gratis
+            $estatus = 0;
+            suscribir($user_id, $fechaR, $fechaV, $tipo, $estatus);
+            #crearmos cookies de acceso
+            setcookie("_validate", $estatus, $duracion, $ruta);
+            setcookie("expires_in", time() + $expires_in, $duracion, $ruta);
+            //enviar correo a nuevo usuario
+            // $destinatario = $email;
+            // include('../correos/bienvenida.php');
+        }
         // header('location:../');
     } else {
         // We can check if the access token in invalid checking the time
