@@ -26,13 +26,13 @@ if (@$_GET['code'] || @$_COOKIE['_validate']) {
         $result = curl_exec($ch);
         curl_close($ch);
         $response = json_decode($result);
-        var_dump($response);
 
         $user_id   = $response->user_id;
         $email     = $response->email;
         $telppal   = @$response->phone->area_code . $response->phone->number;
         $telsecond = @$response->alternative_phone->area_code . $response->alternative_phone->number;
         $site_id   = @$response->site_id;
+        echo "EMAIL $email <br>";
         #existe el usuario?
         if (userExist($user_id, $email)) {
             echo "ENTRO ACA EXISTE EL USER<br>";
